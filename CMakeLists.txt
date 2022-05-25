@@ -1,4 +1,4 @@
-﻿cmake_minimum_required(VERSION 3.10)
+﻿cmake_minimum_required(VERSION 3.22)
 
 project(eth-cli)
 set(CMAKE_CXX_STANDARD 17)
@@ -24,8 +24,8 @@ find_package(JSONCPP REQUIRED) # jsoncpp
 find_package(Boost REQUIRED) # boost
 
 target_link_libraries(${PROJECT_NAME}
-					 eth-rpc
-					 CURL::libcurl
-					 Boost::boost
-					 ${JSONCPP_LIBRARY}
+	eth-rpc
+	CURL::libcurl
+	Boost::boost
+	${JSONCPP_LIBRARY}
 )

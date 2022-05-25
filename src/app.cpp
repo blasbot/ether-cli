@@ -1,13 +1,11 @@
 #include <iostream>
 #include "shell.hpp"
-#include "wrapper.hpp"
-#include "sender.hpp"
 #include "app.hpp"
 #include <filesystem>
 #include <fstream>
 
-Getter* getter = nullptr;
-Sender* sender = nullptr;
+Api* api = nullptr;
+Factory* factory = nullptr;
 
 namespace fs = std::filesystem;
 
@@ -37,7 +35,7 @@ void prep(std::string* rpcUri, std::string* privKey)
 		FILE* f = fopen(walletName.c_str(), "r");
 		if (f == NULL)
 		{
-			Keypair kp = sender->CreatePair();
+			Keypair kp = factory->CreatePair();
 			*privKey = kp.privateKey;
 
 			std::ofstream nf;
@@ -80,16 +78,16 @@ int main()
 	prep(&rpcUri, &privKey); // Now we at least have a clean main function
 
 	Wrapper wr = Wrapper(rpcUri);
-	getter = new Getter(&wr);
-	sender = new Sender(&wr, privKey);
+	api = new Api(&wr);
+	factory = new Factory(&wr, privKey);
 
 	// Start the main loop
 	Shell shell = Shell();
 	shell.MainLoop();
 
 	// Cleanup
-	delete getter;
-	delete sender;
+	delete api;
+	delete factory;
 
 	return 0;
 }

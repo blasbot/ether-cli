@@ -1,6 +1,6 @@
 #pragma once
-#include <getter.hpp>
-#include <sender.hpp>
+#include <api.hpp>
+#include <factory.hpp>
 
-extern Sender* sender;
-extern Getter* getter;
+extern Api* api;
+extern Factory* factory;

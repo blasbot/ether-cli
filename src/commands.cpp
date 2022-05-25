@@ -35,38 +35,27 @@ int Commands::Run(std::string cmd, std::vector<std::string> args)
 
 int PublicKey(std::vector<std::string> _)
 {
-	std::cout << sender->PublicKey() << "\n";
+	std::cout << factory->PublicKey() << "\n";
 	return 0;
 }
 
 int Address(std::vector<std::string> _)
 {
-	std::cout << sender->WalletAddress() << "\n";
+	std::cout << factory->WalletAddress() << "\n";
 	return 0;
 }
 
 int RawTx(std::vector<std::string> args)
 {
-	std::cout << sender->CreateRawTransaction(args.at(0), args.at(1), args.at(2), args.at(3), args.at(4), args.at(5));
+	std::cout << factory->CreateRawTransaction(args.at(0), args.at(1), args.at(2), args.at(3), args.at(4), args.at(5));
 	return 0;
-}
-
-int trailing_naughts(unsigned long long n)
-{
-	if (n < 0)
-		return -1;
-
-	int count = 0;
-
-	for (int i = 5; n / i >= 1; i *= 5)
-		count += n / i;
-
-	return count;
 }
 
 int Balance(std::vector<std::string> _)
 {
-	std::string nS = getter->Balance(sender->WalletAddress(), "latest")->balance.str();
+	BalanceResult* result = api->Balance(factory->WalletAddress(), "latest");
+
+	std::string nS = result->balance.str();
 	int n = 18 - nS.size();
 	if (n > 0)
 	{
@@ -83,12 +72,16 @@ int Balance(std::vector<std::string> _)
 
 		std::cout << a << "." << b;
 	}
+
+	delete result;
 	return 0;
 }
 
 int BalanceOf(std::vector<std::string> args)
 {
-	std::string nS = getter->Balance(args.at(0), "latest")->balance.str();
+	BalanceResult* result = api->Balance(args.at(0), "latest");
+
+	std::string nS = result->balance.str();
 	int n = 18 - nS.size();
 	if (n > 0)
 	{
@@ -102,10 +95,11 @@ int BalanceOf(std::vector<std::string> args)
 	{
 		std::string a = nS.substr(0, -n);
 		std::string b = nS.substr(-n);
-		// exact x.x
-		// bigger xn.x
+
 		std::cout << a << "." << b;
 	}
+
+	delete result;
 	return 0;
 }
 
