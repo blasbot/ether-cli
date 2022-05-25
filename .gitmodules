@@ -1,0 +1,3 @@
+[submodule "lib/eth-rpc"]
+	path = lib/eth-rpc
+	url = https://github.com/OnlyF0uR/ethereum-rpc-cpp
