@@ -1,2 +1,2 @@
-# ethereum-cli
-A lightweight cli application in order to interact with the Ethereum blockchain through the JSON-RPC.
+# ether-cli
+A ether-cli application in order to interact with the Ethereum blockchain through the JSON-RPC.
